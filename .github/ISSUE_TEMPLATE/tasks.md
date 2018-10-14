@@ -1,8 +1,5 @@
----
-name: Tasks
-about: To-do List for the project
 
----
+# Tasks
 
 - [ ] Login
 - [ ] Index Template

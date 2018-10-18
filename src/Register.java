@@ -46,45 +46,46 @@ public class Register extends JFrame {
 	public Register() {
 		System.out.println("Register Constructor");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 792, 681);
+		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
 		JLabel lblUsername = new JLabel("Username : ");
-		lblUsername.setBounds(229, 223, 112, 40);
+		lblUsername.setBounds(154, 212, 112, 40);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password :");
-		lblPassword.setBounds(229, 264, 112, 22);
+		lblPassword.setBounds(154, 253, 112, 22);
 		contentPane.add(lblPassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password : ");
-		lblConfirmPassword.setBounds(189, 296, 112, 22);
+		lblConfirmPassword.setBounds(114, 285, 112, 22);
 		contentPane.add(lblConfirmPassword);
 		
 		textField = new JTextField();
-		textField.setBounds(293, 234, 250, 19);
+		textField.setBounds(218, 223, 250, 19);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JButton btnRegister = new JButton("Register");
 		btnRegister.setAction(action);
-		btnRegister.setBounds(364, 327, 85, 21);
+		btnRegister.setBounds(289, 316, 85, 21);
 		contentPane.add(btnRegister);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(293, 266, 250, 19);
+		passwordField.setBounds(218, 255, 250, 19);
 		passwordField.setEchoChar('*');
 		contentPane.add(passwordField);
 		
 		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(293, 298, 250, 19);
+		passwordField_1.setBounds(218, 287, 250, 19);
 		passwordField_1.setEchoChar('*');
 		contentPane.add(passwordField_1);
 	}
 	private class SwingAction extends AbstractAction {
+		private Mainpage plan;
 		public SwingAction() {
 			putValue(NAME, "Register");
 			putValue(SHORT_DESCRIPTION, "Some short description");
@@ -103,7 +104,7 @@ public class Register extends JFrame {
 					st.execute("INSERT INTO people (username,password) VALUE ('"+username+"','"+password+"')");
 					System.out.println("Account Created");
 					dispose();
-					PlannerMain plan = new PlannerMain(username);
+					plan = new Mainpage(username);
 				}
 				else 
 					System.out.println("Passwords Don't match");

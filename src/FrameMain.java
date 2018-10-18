@@ -51,7 +51,7 @@ public class FrameMain extends JFrame {
 	 */
 	public FrameMain() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 792, 681);
+		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 10, 10));
 		contentPane.setLayout(null);
@@ -63,20 +63,20 @@ public class FrameMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnLogin.setBounds(352, 345, 107, 29);
+		btnLogin.setBounds(242, 303, 107, 29);
 		contentPane.add(btnLogin);
 		
 		textField = new JTextField();
-		textField.setBounds(272, 263, 291, 19);
+		textField.setBounds(182, 221, 291, 19);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblUsername = new JLabel("Username : ");
-		lblUsername.setBounds(198, 258, 90, 29);
+		lblUsername.setBounds(108, 216, 90, 29);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password : ");
-		lblPassword.setBounds(198, 299, 90, 28);
+		lblPassword.setBounds(108, 257, 90, 28);
 		contentPane.add(lblPassword);
 		
 		JButton btnRegister = new JButton("Register");
@@ -85,11 +85,11 @@ public class FrameMain extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnRegister.setBounds(352, 384, 107, 32);
+		btnRegister.setBounds(242, 342, 107, 32);
 		contentPane.add(btnRegister);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(272, 304, 291, 19);
+		passwordField.setBounds(182, 262, 291, 19);
 		passwordField.setEchoChar('*');
 		contentPane.add(passwordField);
 	}
@@ -115,7 +115,7 @@ public class FrameMain extends JFrame {
 					{
 						System.out.println("LOG IN successful");
 						dispose();
-						PlannerMain plan = new PlannerMain(username);
+						Mainpage plan = new Mainpage(username);
 						flag = true;
 						break;
 					}

@@ -139,4 +139,4 @@ public class FrameMain extends JFrame {
 			regis.setVisible(true);
 		}
 	}
-	}
+}

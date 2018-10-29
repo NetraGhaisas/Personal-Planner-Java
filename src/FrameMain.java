@@ -116,6 +116,7 @@ public class FrameMain extends JFrame {
 						System.out.println("LOG IN successful");
 						dispose();
 						Mainpage plan = new Mainpage(username);
+						plan.setVisible(true);
 						flag = true;
 						break;
 					}

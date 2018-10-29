@@ -105,6 +105,7 @@ public class Register extends JFrame {
 					System.out.println("Account Created");
 					dispose();
 					plan = new Mainpage(username);
+					plan.setVisible(true);
 				}
 				else 
 					System.out.println("Passwords Don't match");

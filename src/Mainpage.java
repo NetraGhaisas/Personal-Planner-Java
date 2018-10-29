@@ -22,7 +22,8 @@ public class Mainpage extends JFrame {
 
 	private JPanel contentPane;
 	private final Action action = new SwingAction();
-
+	private final Action action_1 = new SwingAction_1();
+	String username;
 	/**
 	 * Launch the application.
 	 */
@@ -43,6 +44,7 @@ public class Mainpage extends JFrame {
 	 * Create the frame.
 	 */
 	public Mainpage(String username) {
+		this.username = username;
 		setTitle("Planner");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
@@ -66,6 +68,7 @@ public class Mainpage extends JFrame {
 		panel.add(lblHelloUser);
 		
 		JButton btnNewButton = new JButton("Assistant");
+		btnNewButton.setAction(action_1);
 		btnNewButton.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnNewButton.setForeground(SystemColor.desktop);
 		btnNewButton.setBackground(SystemColor.activeCaption);
@@ -119,6 +122,16 @@ public class Mainpage extends JFrame {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
+		}
+	}
+	private class SwingAction_1 extends AbstractAction {
+		public SwingAction_1() {
+			putValue(NAME, "Assistant");
+			putValue(SHORT_DESCRIPTION, "Dont ask silly questions :)");
+		}
+		public void actionPerformed(ActionEvent e) {
+			AssTest a = new AssTest();
+			a.speech(username);
 		}
 	}
 }

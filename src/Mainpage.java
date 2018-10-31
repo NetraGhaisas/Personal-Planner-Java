@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +18,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.ActionListener;
 import java.awt.GridLayout;
+import javax.swing.JTextArea;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Mainpage extends JFrame {
 
@@ -24,6 +30,8 @@ public class Mainpage extends JFrame {
 	private final Action action = new SwingAction();
 	private final Action action_1 = new SwingAction_1();
 	String username;
+	private final Action action_2 = new SwingAction_2();
+	private JTextArea txtrTodo;
 	/**
 	 * Launch the application.
 	 */
@@ -99,6 +107,17 @@ public class Mainpage extends JFrame {
 		button.setBounds(400, 465, 85, 80);
 		panel_2.add(button);
 		
+		txtrTodo = new JTextArea();
+		txtrTodo.setBackground(Color.LIGHT_GRAY);
+		txtrTodo.setText("Todo");
+		txtrTodo.setBounds(115, 111, 223, 41);
+		panel_2.add(txtrTodo);
+		
+		JButton btnAdd = new JButton("ADD");
+		btnAdd.setAction(action_2);
+		btnAdd.setBounds(184, 162, 85, 21);
+		panel_2.add(btnAdd);
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.WHITE);
 		tabbedPane.addTab("Reminders", null, panel_1, null);
@@ -132,6 +151,26 @@ public class Mainpage extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			AssTest a = new AssTest();
 			a.speech(username);
+		}
+	}
+	private class SwingAction_2 extends AbstractAction {
+		public SwingAction_2() {
+			putValue(NAME, "Add todo");
+			putValue(SHORT_DESCRIPTION, "Add data to todo table");
+		}
+		public void actionPerformed(ActionEvent e) {
+			Date dt = new Date();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String currentTime = sdf.format(dt);
+			String todo = txtrTodo.getText();
+			try {
+		        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+				Statement st = con.createStatement();
+				st.execute("USE test");
+				st.execute("INSERT INTO todo (username,time,todo,status) VALUE ('"+username+"','"+currentTime+"','"+todo+"','"+0+"')");
+				System.out.println(' '+username+','+currentTime+','+todo+','+0);
+			}
+			catch(Exception ec) {System.out.println(ec);}
 		}
 	}
 }

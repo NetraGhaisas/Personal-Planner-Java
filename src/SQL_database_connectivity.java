@@ -20,7 +20,14 @@ public class SQL_database_connectivity
 					+ "password VARCHAR(25),"
 					+ "PRIMARY KEY(id)"
 					+ ")");
-			st.execute("INSERT INTO people (username,password) VALUES" + "('RusherRG','1234567@R'),('Netra','Ghaisas')");
+			st.execute("INSERT INTO people (username,password) VALUES" + "('RusherRG','1234567@R'),('Netra','Ghaisas'),('Athmika','Hebbar')");
+			
+			st.execute("DROP TABLE IF EXISTS todo");
+			st.execute("CREATE TABLE todo ("+ "username VARCHAR(25),"
+					+ "time DATETIME,"
+					+ "todo LONGTEXT,"
+					+ "status INT(11)"
+					+ ")");
 		}
 		catch(Exception e)
 		{

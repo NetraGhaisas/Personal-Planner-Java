@@ -15,6 +15,8 @@ import java.sql.Statement;
 
 import javax.swing.Action;
 import javax.swing.JPasswordField;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Register extends JFrame {
 
@@ -48,20 +50,27 @@ public class Register extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
 		JLabel lblUsername = new JLabel("Username : ");
-		lblUsername.setBounds(154, 212, 112, 40);
+		lblUsername.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblUsername.setForeground(Color.WHITE);
+		lblUsername.setBounds(132, 211, 123, 40);
 		contentPane.add(lblUsername);
 		
 		JLabel lblPassword = new JLabel("Password :");
-		lblPassword.setBounds(154, 253, 112, 22);
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblPassword.setForeground(Color.WHITE);
+		lblPassword.setBounds(134, 252, 80, 22);
 		contentPane.add(lblPassword);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password : ");
-		lblConfirmPassword.setBounds(114, 285, 112, 22);
+		lblConfirmPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblConfirmPassword.setForeground(Color.WHITE);
+		lblConfirmPassword.setBounds(75, 284, 187, 22);
 		contentPane.add(lblConfirmPassword);
 		
 		textField = new JTextField();

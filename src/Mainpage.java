@@ -23,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.border.BevelBorder;
 
 public class Mainpage extends JFrame {
 
@@ -52,22 +53,29 @@ public class Mainpage extends JFrame {
 	 * Create the frame.
 	 */
 	public Mainpage(String username) {
+		setResizable(false);
+		setBackground(Color.WHITE);
 		this.username = username;
 		setTitle("Planner");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setResizable(false);
 		setBounds(100, 100, 600, 600);
 		contentPane = new JPanel();
+		contentPane.setBackground(SystemColor.desktop);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+		tabbedPane.setBackground(Color.WHITE);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
+		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel.setBackground(SystemColor.menu);
 		tabbedPane.addTab("Home\r\n", null, panel, null);
+		tabbedPane.setForegroundAt(0, Color.BLACK);
+		tabbedPane.setEnabledAt(0, true);
+		tabbedPane.setBackgroundAt(0, Color.WHITE);
 		panel.setLayout(null);
 		
 		JLabel lblHelloUser = new JLabel("Hello "+username);
@@ -84,8 +92,11 @@ public class Mainpage extends JFrame {
 		panel.add(btnNewButton);
 		
 		JPanel Notes = new JPanel();
-		Notes.setBackground(Color.WHITE);
+		Notes.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		Notes.setBackground(SystemColor.menu);
 		tabbedPane.addTab("Notes", null, Notes, null);
+		tabbedPane.setEnabledAt(1, true);
+		tabbedPane.setBackgroundAt(1, Color.WHITE);
 		Notes.setLayout(null);
 		
 		JButton button_1 = new JButton("Assistant");
@@ -96,8 +107,10 @@ public class Mainpage extends JFrame {
 		Notes.add(button_1);
 		
 		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(Color.WHITE);
+		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_2.setBackground(SystemColor.menu);
 		tabbedPane.addTab("To-do", null, panel_2, null);
+		tabbedPane.setEnabledAt(2, true);
 		panel_2.setLayout(null);
 		
 		JButton button = new JButton("Assistant");
@@ -119,7 +132,8 @@ public class Mainpage extends JFrame {
 		panel_2.add(btnAdd);
 		
 		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.WHITE);
+		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_1.setBackground(SystemColor.menu);
 		tabbedPane.addTab("Reminders", null, panel_1, null);
 		panel_1.setLayout(null);
 		

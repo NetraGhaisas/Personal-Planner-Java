@@ -4,7 +4,7 @@ public class AssTest {
 	}
 	public void speech(String username) {
 		try {
-			String s = "python D:/Personal-Planner-Java/src/test.py "+username;
+			String s = "python F:/Git stuff/Personal-Planner-Java/src/test.py "+username;
 			Process p = Runtime.getRuntime().exec(s);
 			System.out.println(s);
 		}

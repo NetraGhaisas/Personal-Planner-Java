@@ -24,6 +24,17 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.border.BevelBorder;
+import javax.swing.SwingConstants;
+import javax.swing.JSplitPane;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JToolBar;
+import javax.swing.JEditorPane;
+import javax.swing.JCheckBox;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
+import javax.swing.BoxLayout;
 
 public class Mainpage extends JFrame {
 
@@ -32,7 +43,11 @@ public class Mainpage extends JFrame {
 	private final Action action_1 = new SwingAction_1();
 	String username;
 	private final Action action_2 = new SwingAction_2();
+	private final Action action_3 = new SwingAction_3();
+	private JPanel panel_6;
+	private JPanel main_todo;
 	private JTextArea txtrTodo;
+	private JTable table;
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +68,6 @@ public class Mainpage extends JFrame {
 	 * Create the frame.
 	 */
 	public Mainpage(String username) {
-		setResizable(false);
 		setBackground(Color.WHITE);
 		this.username = username;
 		setTitle("Planner");
@@ -78,11 +92,6 @@ public class Mainpage extends JFrame {
 		tabbedPane.setBackgroundAt(0, Color.WHITE);
 		panel.setLayout(null);
 		
-		JLabel lblHelloUser = new JLabel("Hello "+username);
-		lblHelloUser.setFont(new Font("Calibri", Font.PLAIN, 40));
-		lblHelloUser.setBounds(123, 98, 261, 63);
-		panel.add(lblHelloUser);
-		
 		JButton btnNewButton = new JButton("Assistant");
 		btnNewButton.setAction(action_1);
 		btnNewButton.setFont(new Font("Calibri", Font.PLAIN, 11));
@@ -90,6 +99,31 @@ public class Mainpage extends JFrame {
 		btnNewButton.setBackground(SystemColor.activeCaption);
 		btnNewButton.setBounds(400, 465, 85, 80);
 		panel.add(btnNewButton);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(10, 11, 493, 126);
+		panel.add(panel_4);
+		panel_4.setLayout(null);
+		
+		JLabel lblHelloUser = new JLabel("Hello <dynamic>");
+		lblHelloUser.setBounds(10, 11, 473, 104);
+		panel_4.add(lblHelloUser);
+		lblHelloUser.setHorizontalAlignment(SwingConstants.CENTER);
+		lblHelloUser.setFont(new Font("Calibri", Font.PLAIN, 40));
+		
+		JPanel panel_5 = new JPanel();
+		panel_5.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_5.setBackground(SystemColor.scrollbar);
+		panel_5.setLayout(null);
+		panel_5.setBounds(10, 148, 493, 306);
+		panel.add(panel_5);
+		
+		JLabel lblNotifications = new JLabel("Notifications");
+		lblNotifications.setBackground(SystemColor.activeCaption);
+		lblNotifications.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNotifications.setFont(new Font("Calibri", Font.PLAIN, 30));
+		lblNotifications.setBounds(10, 11, 473, 50);
+		panel_5.add(lblNotifications);
 		
 		JPanel Notes = new JPanel();
 		Notes.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -117,19 +151,75 @@ public class Mainpage extends JFrame {
 		button.setForeground(Color.BLACK);
 		button.setFont(new Font("Calibri", Font.PLAIN, 11));
 		button.setBackground(SystemColor.activeCaption);
-		button.setBounds(400, 465, 85, 80);
+		button.setBounds(418, 465, 85, 80);
 		panel_2.add(button);
 		
 		txtrTodo = new JTextArea();
 		txtrTodo.setBackground(Color.LIGHT_GRAY);
 		txtrTodo.setText("Todo");
-		txtrTodo.setBounds(115, 111, 223, 41);
+		txtrTodo.setBounds(100, 465, 308, 41);
 		panel_2.add(txtrTodo);
 		
+		
+		
+		JPanel main_todo = new JPanel();
+		main_todo.setBounds(10, 11, 483, 443);
+		panel_2.add(main_todo);
+		main_todo.setLayout(null);
+		
 		JButton btnAdd = new JButton("ADD");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				main_todo.repaint();
+			}
+		});
 		btnAdd.setAction(action_2);
-		btnAdd.setBounds(184, 162, 85, 21);
+		btnAdd.setBounds(10, 465, 85, 41);
 		panel_2.add(btnAdd);
+		
+		try {
+	        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+			Statement st = c.createStatement();
+			st.execute("USE test");
+			ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status!=-1");
+			int i=0;
+			while(rs.next()){
+				String entry = rs.getString("todo");
+				boolean status;
+				int s=rs.getInt("status");
+				if(s==0){
+					status=false;
+				}
+				else status=true;
+				
+				//TodoItem td = new TodoItem(entry,status);
+				JPanel panel_6 = new JPanel();
+				panel_6.setBounds(0,21*i,466, 21);
+				
+				main_todo.add(panel_6);
+				panel_6.setLayout(new BorderLayout(0, 0));
+				
+				JButton btnNewButton_1 = new JButton("Delete");
+				btnNewButton_1.setIcon(new ImageIcon(Mainpage.class.getResource("/com/sun/java/swing/plaf/motif/icons/Error.gif")));
+				panel_6.add(btnNewButton_1, BorderLayout.EAST);
+			
+				
+				JCheckBox chckbxNewCheckBox = new JCheckBox(entry);
+				if(status==true){
+					chckbxNewCheckBox.setSelected(true);
+				}
+				else chckbxNewCheckBox.setSelected(false);
+				panel_6.add(chckbxNewCheckBox, BorderLayout.CENTER);
+				
+				i++;
+			}
+			//System.out.println(' '+username+','+currentTime+','+todo+','+0);
+		}
+		catch(Exception ec) {System.out.println(ec);}
+		
+		JScrollBar scrollBar = new JScrollBar();
+		scrollBar.setBounds(467, 0, 16, 443);
+		main_todo.add(scrollBar);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -148,6 +238,63 @@ public class Mainpage extends JFrame {
 		btnAssistant.setBackground(SystemColor.activeCaption);
 		btnAssistant.setBounds(405, 465, 80, 80);
 		panel_1.add(btnAssistant);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panel_3.setBackground(SystemColor.menu);
+		tabbedPane.addTab("Schedule", null, panel_3, null);
+		panel_3.setLayout(null);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{"Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, true, true, true, true, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.setBounds(10, 11, 493, 384);
+		panel_3.add(table);
+		
+		JButton btnEdit = new JButton("Save schedule");
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnEdit.setBounds(10, 406, 136, 36);
+		panel_3.add(btnEdit);
+		tabbedPane.setEnabledAt(4, true);
 	}
 	private class SwingAction extends AbstractAction {
 		public SwingAction() {
@@ -185,6 +332,15 @@ public class Mainpage extends JFrame {
 				System.out.println(' '+username+','+currentTime+','+todo+','+0);
 			}
 			catch(Exception ec) {System.out.println(ec);}
+		}
+	}
+	private class SwingAction_3 extends AbstractAction {
+		public SwingAction_3() {
+			putValue(NAME, "Delete");
+			putValue(SHORT_DESCRIPTION, "Delete item and set status -1");
+		}
+		public void actionPerformed(ActionEvent e) {
+			
 		}
 	}
 }

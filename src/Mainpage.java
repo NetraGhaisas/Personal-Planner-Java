@@ -35,6 +35,20 @@ import javax.swing.JCheckBox;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.CardLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JToggleButton;
+import java.awt.Component;
+import javax.swing.Box;
+import java.awt.Dimension;
+import javax.swing.JComboBox;
+import javax.swing.JSlider;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JScrollPane;
 
 public class Mainpage extends JFrame {
 
@@ -46,8 +60,10 @@ public class Mainpage extends JFrame {
 	private final Action action_3 = new SwingAction_3();
 	private JPanel panel_6;
 	private JPanel main_todo;
+	private JPanel To_do = new JPanel();
 	private JTextArea txtrTodo;
 	private JTable table;
+	private final Action action_4 = new SwingAction_4();
 	/**
 	 * Launch the application.
 	 */
@@ -101,7 +117,7 @@ public class Mainpage extends JFrame {
 		panel.add(btnNewButton);
 		
 		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(10, 11, 493, 126);
+		panel_4.setBounds(10, 11, 483, 126);
 		panel.add(panel_4);
 		panel_4.setLayout(null);
 		
@@ -115,102 +131,66 @@ public class Mainpage extends JFrame {
 		panel_5.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel_5.setBackground(SystemColor.scrollbar);
 		panel_5.setLayout(null);
-		panel_5.setBounds(10, 148, 493, 306);
+		panel_5.setBounds(10, 148, 483, 306);
 		panel.add(panel_5);
 		
-		JLabel lblNotifications = new JLabel("Notifications");
+		JLabel lblNotifications = new JLabel("Day Overview");
 		lblNotifications.setBackground(SystemColor.activeCaption);
 		lblNotifications.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNotifications.setFont(new Font("Calibri", Font.PLAIN, 30));
 		lblNotifications.setBounds(10, 11, 473, 50);
 		panel_5.add(lblNotifications);
 		
-		JPanel Notes = new JPanel();
-		Notes.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		Notes.setBackground(SystemColor.menu);
-		tabbedPane.addTab("Notes", null, Notes, null);
+		//JPanel panel_2 = new JPanel();
+		To_do.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		To_do.setBackground(SystemColor.menu);
+		tabbedPane.addTab("To-do", null, To_do, null);
 		tabbedPane.setEnabledAt(1, true);
-		tabbedPane.setBackgroundAt(1, Color.WHITE);
-		Notes.setLayout(null);
-		
-		JButton button_1 = new JButton("Assistant");
-		button_1.setBounds(426, 465, 77, 80);
-		button_1.setForeground(Color.BLACK);
-		button_1.setFont(new Font("Calibri", Font.PLAIN, 11));
-		button_1.setBackground(SystemColor.activeCaption);
-		Notes.add(button_1);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_2.setBackground(SystemColor.menu);
-		tabbedPane.addTab("To-do", null, panel_2, null);
-		tabbedPane.setEnabledAt(2, true);
-		panel_2.setLayout(null);
+		To_do.setLayout(null);
 		
 		JButton button = new JButton("Assistant");
 		button.setForeground(Color.BLACK);
 		button.setFont(new Font("Calibri", Font.PLAIN, 11));
 		button.setBackground(SystemColor.activeCaption);
 		button.setBounds(418, 465, 85, 80);
-		panel_2.add(button);
+		To_do.add(button);
 		
 		txtrTodo = new JTextArea();
 		txtrTodo.setBackground(Color.LIGHT_GRAY);
 		txtrTodo.setText("Todo");
 		txtrTodo.setBounds(100, 465, 308, 41);
-		panel_2.add(txtrTodo);
+		To_do.add(txtrTodo);
 		
 		
 		
 		JPanel main_todo = new JPanel();
-		main_todo.setBounds(10, 11, 483, 443);
-		panel_2.add(main_todo);
+		main_todo.setBackground(SystemColor.menu);
+		main_todo.setBounds(10, 40, 483, 414);
+		To_do.add(main_todo);
 		main_todo.setLayout(null);
 		
 		JButton btnAdd = new JButton("ADD");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				main_todo.repaint();
+			//	main_todo.repaint();
 			}
 		});
 		btnAdd.setAction(action_2);
 		btnAdd.setBounds(10, 465, 85, 41);
-		panel_2.add(btnAdd);
+		To_do.add(btnAdd);
 		
 		try {
 	        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
 			Statement st = c.createStatement();
 			st.execute("USE test");
-			ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status!=-1");
+			ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status=0");
 			int i=0;
 			while(rs.next()){
 				String entry = rs.getString("todo");
-				boolean status;
-				int s=rs.getInt("status");
-				if(s==0){
-					status=false;
-				}
-				else status=true;
-				
-				//TodoItem td = new TodoItem(entry,status);
-				JPanel panel_6 = new JPanel();
-				panel_6.setBounds(0,21*i,466, 21);
-				
-				main_todo.add(panel_6);
-				panel_6.setLayout(new BorderLayout(0, 0));
-				
-				JButton btnNewButton_1 = new JButton("Delete");
-				btnNewButton_1.setIcon(new ImageIcon(Mainpage.class.getResource("/com/sun/java/swing/plaf/motif/icons/Error.gif")));
-				panel_6.add(btnNewButton_1, BorderLayout.EAST);
-			
-				
-				JCheckBox chckbxNewCheckBox = new JCheckBox(entry);
-				if(status==true){
-					chckbxNewCheckBox.setSelected(true);
-				}
-				else chckbxNewCheckBox.setSelected(false);
-				panel_6.add(chckbxNewCheckBox, BorderLayout.CENTER);
-				
+				int id = rs.getInt("id");
+				TodoItem td = new TodoItem(entry,id);
+				td.setBounds(0,21*i,466,21);
+				main_todo.add(td);
 				i++;
 			}
 			//System.out.println(' '+username+','+currentTime+','+todo+','+0);
@@ -220,6 +200,186 @@ public class Mainpage extends JFrame {
 		JScrollBar scrollBar = new JScrollBar();
 		scrollBar.setBounds(467, 0, 16, 443);
 		main_todo.add(scrollBar);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		//btnRefresh.setAction(action_4);
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent action) {
+				try{
+					//main_todo = (JPanel)(getParent().getParent().getParent());
+					main_todo.removeAll();
+					main_todo.setBackground(SystemColor.menu);
+					main_todo.setLayout(null);
+					JScrollBar scrollBar1 = new JScrollBar();
+					scrollBar1.setBounds(467, 0, 16, 443);
+					main_todo.add(scrollBar1);
+					
+					//main_todo = new JPanel();
+					//main_todo.setBounds(10, 40, 483, 414);
+					//panel_2.add(main_todo);
+					//main_todo.setLayout(null);
+				        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+						Statement st = c.createStatement();
+						st.execute("USE test");
+						ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status=0");
+						int j=0;
+						while(rs.next()){
+							String entry = rs.getString("todo");
+							int id = rs.getInt("id");
+							TodoItem td = new TodoItem(entry,id);
+							td.setBounds(0,21*j,466, 21);
+							main_todo.add(td);
+							j++;
+						}
+						//System.out.println(' '+username+','+currentTime+','+todo+','+0);
+				}catch(Exception ex){System.out.println(ex);}
+			}
+		});
+		btnRefresh.setIcon(new ImageIcon(Mainpage.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
+		btnRefresh.setToolTipText("Click and then reopen tab to refresh");
+		btnRefresh.setBounds(378, 11, 100, 23);
+		To_do.add(btnRefresh);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(SystemColor.menu);
+		panel_2.setBorder(null);
+		tabbedPane.addTab("Tasks done", null, panel_2, null);
+		panel_2.setLayout(null);
+		
+		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane_1.setBounds(10, 36, 479, 404);
+		panel_2.add(tabbedPane_1);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setBackground(SystemColor.menu);
+		panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tabbedPane_1.addTab("Today\r\n", null, panel_7, null);
+		panel_7.setLayout(null);
+		try {
+	        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+			Statement st = c.createStatement();
+			st.execute("USE test");
+			ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status=1 AND time>CURDATE()-1");
+			int i=0;
+			while(rs.next()){
+				String entry = rs.getString("todo");
+				int id = rs.getInt("id");
+				DoneItem done = new DoneItem(entry,id);
+				done.setBounds(10,11+21*i,430,21);
+				panel_7.add(done);
+				i++;
+			}
+			//System.out.println(' '+username+','+currentTime+','+todo+','+0);
+		}
+		catch(Exception ec) {System.out.println(ec);}
+		
+		JScrollBar scrollBar_1 = new JScrollBar();
+		scrollBar_1.setBounds(447, 11, 17, 354);
+		panel_7.add(scrollBar_1);
+		
+		JPanel panel_8 = new JPanel();
+		panel_8.setBackground(SystemColor.menu);
+		panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		tabbedPane_1.addTab("Past", null, panel_8, null);
+		panel_8.setLayout(null);
+		
+		try {
+	        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+			Statement st = c.createStatement();
+			st.execute("USE test");
+			ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status=1 AND time<CURDATE()");
+			int i=1;
+			while(rs.next()){
+				String entry = rs.getString("todo");
+				int id = rs.getInt("id");
+				java.sql.Date d = rs.getDate("time");
+				PastItem done = new PastItem(entry,id,d);
+				done.setBounds(10,11+21*i,430,21);
+				panel_8.add(done);
+				i++;
+			}
+			//System.out.println(' '+username+','+currentTime+','+todo+','+0);
+		}
+		catch(Exception ec) {System.out.println(ec);}
+		
+		JScrollBar scrollBar_2 = new JScrollBar();
+		scrollBar_2.setBounds(447, 11, 17, 354);
+		panel_8.add(scrollBar_2);
+		
+		JLabel lblTask = new JLabel("Task");
+		lblTask.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTask.setBounds(155, 11, 39, 21);
+		panel_8.add(lblTask);
+		
+		JLabel lblDate = new JLabel("Date");
+		lblDate.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblDate.setBounds(377, 11, 60, 21);
+		panel_8.add(lblDate);
+		
+		JButton button_1 = new JButton("Refresh");
+		button_1.setIcon(new ImageIcon(Mainpage.class.getResource("/com/sun/javafx/scene/web/skin/Redo_16x16_JFX.png")));
+		button_1.setToolTipText("Click and then reopen tab to refresh");
+		button_1.setBounds(378, 11, 100, 23);
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg) {
+				panel_7.removeAll();
+				panel_8.removeAll();
+				panel_7.setBackground(SystemColor.menu);
+				panel_7.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				panel_7.setLayout(null);
+				try {
+			        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+					Statement st = c.createStatement();
+					st.execute("USE test");
+					ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status=1 AND time>CURDATE()-1");
+					int i=0;
+					while(rs.next()){
+						String entry = rs.getString("todo");
+						int id = rs.getInt("id");
+						DoneItem done = new DoneItem(entry,id);
+						done.setBounds(10,11+21*i,430,21);
+						panel_7.add(done);
+						i++;
+					}
+					//System.out.println(' '+username+','+currentTime+','+todo+','+0);
+				}
+				catch(Exception ec) {System.out.println(ec);}
+				
+				JScrollBar scrollBar_1 = new JScrollBar();
+				scrollBar_1.setBounds(447, 11, 17, 390);
+				panel_7.add(scrollBar_1);
+				
+				//refresh for past panel_8
+				panel_8.setBackground(SystemColor.menu);
+				panel_8.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+				panel_8.setLayout(null);
+				
+				try {
+			        Connection c = DriverManager.getConnection("jdbc:mysql://localhost:3306/", "root", ""); //Creates a Connection with MYSQL Database
+					Statement st = c.createStatement();
+					st.execute("USE test");
+					ResultSet rs = st.executeQuery("SELECT * FROM todo WHERE username='"+username+"' AND status=1 AND time<CURDATE()");
+					int i=0;
+					while(rs.next()){
+						String entry = rs.getString("todo");
+						int id = rs.getInt("id");
+						java.sql.Date d = rs.getDate("time");
+						PastItem done = new PastItem(entry,id,d);
+						done.setBounds(10,11+21*i,430,21);
+						panel_8.add(done);
+						i++;
+					}
+					//System.out.println(' '+username+','+currentTime+','+todo+','+0);
+				}
+				catch(Exception ec) {System.out.println(ec);}
+				
+				JScrollBar scrollBar_2 = new JScrollBar();
+				scrollBar_2.setBounds(447, 11, 17, 354);
+				panel_8.add(scrollBar_2);
+			}
+		});
+		panel_2.add(button_1);
+		
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -338,6 +498,15 @@ public class Mainpage extends JFrame {
 		public SwingAction_3() {
 			putValue(NAME, "Delete");
 			putValue(SHORT_DESCRIPTION, "Delete item and set status -1");
+		}
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	}
+	private class SwingAction_4 extends AbstractAction {
+		public SwingAction_4() {
+			putValue(NAME, "Refresh");
+			putValue(SHORT_DESCRIPTION, "Refresh list");
 		}
 		public void actionPerformed(ActionEvent e) {
 			

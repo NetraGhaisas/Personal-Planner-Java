@@ -23,10 +23,11 @@ public class SQL_database_connectivity
 			st.execute("INSERT INTO people (username,password) VALUES" + "('RusherRG','1234567@R'),('Netra','Ghaisas'),('Athmika','Hebbar')");
 			
 			st.execute("DROP TABLE IF EXISTS todo");
-			st.execute("CREATE TABLE todo ("+ "username VARCHAR(25),"
+			st.execute("CREATE TABLE todo ("+ "id BIGINT NOT NULL AUTO_INCREMENT,"+ "username VARCHAR(25),"
 					+ "time DATETIME,"
 					+ "todo LONGTEXT,"
-					+ "status INT(11)"
+					+ "status INT(11),"
+					+ "PRIMARY KEY(id)"
 					+ ")");
 		}
 		catch(Exception e)
